@@ -60,9 +60,13 @@ export function printBinaryFile(puzzle: Puzzle): Uint8Array {
   let rebusState = EMPTY_BUFFER;
   if (puzzle.rebus) {
     if (puzzle.rebus.grid) {
-      const data = Uint8Array.from(puzzle.rebus.grid, (value) =>
+      const data1 = Uint8Array.from(puzzle.rebus.grid, (value) =>
         value == null ? 0x00 : value + 1,
       );
+        const data = Buffer.alloc(data1.length);
+        for (let off = 0; off < data1.length; off++) {
+            data.writeUInt8(data1[off], off);
+        }
       rebusGrid = encodeExtensionSection(EXTENSION.REBUS_GRID, data);
     }
     if (puzzle.rebus.solution) {
@@ -88,7 +92,11 @@ export function printBinaryFile(puzzle: Puzzle): Uint8Array {
 
   let markup = EMPTY_BUFFER;
   if (puzzle.markupGrid != null) {
-    const data = Uint8Array.from(puzzle.markupGrid, (value) => encodeMarkup(value));
+    const data1 = Uint8Array.from(puzzle.markupGrid, (value) => encodeMarkup(value));
+    const data = Buffer.alloc(data1.length);
+    for (let off = 0; off < data1.length; off++) {
+        data.writeUInt8(data1[off], off);
+    }
 
     markup = encodeExtensionSection(EXTENSION.MARKUP_GRID, data);
   }
