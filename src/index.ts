@@ -45,6 +45,8 @@ export type Puzzle = {
   };
 };
 
+export { cleanString } from './clean';
+
 export { parseBinaryFile } from './binary/parse';
 export { printBinaryFile } from './binary/print';
 
